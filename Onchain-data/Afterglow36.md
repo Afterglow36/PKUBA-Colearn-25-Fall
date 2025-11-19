@@ -22,8 +22,9 @@ timezone: UTC+8
 Part I 动手部署一个智能合约
 
 一、合约概览与目的 
-合约名称：HelloWeb3 
+合约名称：HelloWeb3  
 代码目的：学习Event的使用，以及合约的编译、部署与交互流程。 
+
 核心功能：记录调用者的地址和时间戳到区块链日志中。 
 关键函数：hello() external：触发 Greeting 事件。 
 
