@@ -74,8 +74,6 @@ Events 的作用： Events是智能合约与链下应用通信的主要方式。
 ### 2025.11.20
 ### SolverContract.sol
 
-
-
 ```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
@@ -135,4 +133,32 @@ contract SolverContract {
 
 }
 
+### TargetContract.sol
+
+```solidity  
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+/**
+ * @title TargetContract
+ * @notice 这是您要交互的目标合约（靶子合约）的接口。
+ * * 靶子合约地址：0x4a6C0c0dc8BD8276b65956c9978ef941C3550A1B
+ * 所在网络：Sepolia (Chain ID: 11155111)
+ */
+interface TargetContract {
+    
+    // 步骤 1: 获取解题提示
+    // 假设 hint() 返回一个 string
+    function hint() external view returns (string memory);
+
+    // 步骤 3: 提交答案并获取 Flag
+    // 注意: 该方法可能需要您的 Solver 合约来调用
+    function query(bytes32 _hash) external returns (string memory flagOrMessage);
+
+    // 辅助方法：查看所有完成者
+    function getSolvers() external view returns (address[] memory);
+
+    // 可能触发的事件
+    event ChallengeCompleted(address indexed solver);
+}
 <!-- Content_END -->
