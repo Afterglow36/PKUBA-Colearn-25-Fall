@@ -71,6 +71,66 @@ Events 的作用： Events是智能合约与链下应用通信的主要方式。
 部署与调用的区别： 部署是创建合约实例，只执行一次 constructor；调用是执行合约中的 function，可以执行多次。两者都需要付费 Gas。     
 零 ETH 交易： 虽然 Value 为 0 ETH，但由于 hello() 函数触发 Event 改变了状态，它仍然需要支付 Gas Fee。   
 
-### 2025.07.12
+### 2025.11.20
+SolverContract.sol
+‘
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+// 导入上面定义的接口
+import "./TargetContract.sol"; 
+
+/**
+ * @title SolverContract
+ * @notice 这是您编写的合约，用于与靶子合约交互。
+ */
+contract SolverContract {
+    
+    // 目标合约的地址
+    TargetContract public target;
+
+    // 构造函数：部署时传入靶子合约的地址
+    constructor(address _targetAddress) {
+        target = TargetContract(_targetAddress);
+    }
+
+    // --- 步骤 1: 获取解题提示 ---
+    
+    /**
+     * @notice 调用靶子合约的 hint() 方法获取提示信息
+     * @return 返回靶子合约给出的提示字符串
+     */
+    function getHint() public view returns (string memory) {
+        // 直接调用接口中定义的 hint() 方法
+        return target.hint();
+    }
+
+    // --- 步骤 2: (计算答案 - 此步骤需手动或在本地完成) ---
+    // 这一步是根据 getHint() 返回的提示信息，在链下（本地计算机）计算出正确的 bytes32 答案。
+
+    // --- 步骤 3: 提交答案并获取 Flag ---
+
+    /**
+     * @notice 计算答案并调用靶子合约的 query() 方法提交。
+     * @dev 答案是字符串 "PKUBlockchain" 的 keccak256 哈希值。
+     * @return 返回靶子合约的 Flag 或确认消息
+     */
+    function solveAndSubmit() public returns (string memory) {
+        
+        // 1. 计算正确的 bytes32 答案
+        // 注意：我们对字符串 "PKUBlockchain" 进行 keccak256 哈希
+        bytes32 computedAnswer = keccak256(abi.encodePacked("PKUBlockchain"));
+
+        // 2. 调用靶子合约的 query() 方法提交答案
+        // target.query() 需要 bytes32 类型
+        string memory result = target.query(computedAnswer);
+        
+        // 3. 返回结果 (如果成功，您会看到 Flag 或 ChallengeCompleted 事件)
+        return result;
+    }
+
+
+}
+’
 
 <!-- Content_END -->
