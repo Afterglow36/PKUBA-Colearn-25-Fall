@@ -132,6 +132,7 @@ contract SolverContract {
 
 
 }
+‘’‘
 
 ### TargetContract.sol
 
@@ -161,4 +162,7 @@ interface TargetContract {
     // 可能触发的事件
     event ChallengeCompleted(address indexed solver);
 }
+’‘’
+
+
 <!-- Content_END -->
