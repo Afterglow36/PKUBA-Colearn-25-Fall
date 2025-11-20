@@ -72,12 +72,15 @@ Events 的作用： Events是智能合约与链下应用通信的主要方式。
 零 ETH 交易： 虽然 Value 为 0 ETH，但由于 hello() 函数触发 Event 改变了状态，它仍然需要支付 Gas Fee。   
 
 ### 2025.11.20
-SolverContract.sol
-‘
+### SolverContract.sol
+
+
+
+```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-// 导入上面定义的接口
+// 导入上面定义的接口 (假设 TargetContract.sol 在同级目录)
 import "./TargetContract.sol"; 
 
 /**
@@ -131,6 +134,5 @@ contract SolverContract {
 
 
 }
-’
 
 <!-- Content_END -->
