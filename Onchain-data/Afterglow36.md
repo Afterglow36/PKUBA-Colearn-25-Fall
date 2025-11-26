@@ -72,97 +72,12 @@ Events 的作用： Events是智能合约与链下应用通信的主要方式。
 零 ETH 交易： 虽然 Value 为 0 ETH，但由于 hello() 函数触发 Event 改变了状态，它仍然需要支付 Gas Fee。   
 
 ### 2025.11.20
-### SolverContract.sol
+智能合约编写
 
-```solidity
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+transaction hash：0x1f5f22a742984ed13d08219242dc34e1eae894c3d0fc2baf8eeb1260f0438d5c
+<img width="946" height="558" alt="image" src="https://github.com/user-attachments/assets/c6a5f6bb-e5da-4135-bab3-c1333d089912" />
 
-// 导入上面定义的接口 (假设 TargetContract.sol 在同级目录)
-import "./TargetContract.sol"; 
-
-/**
- * @title SolverContract
- * @notice 这是您编写的合约，用于与靶子合约交互。
- */
-contract SolverContract {
-    
-    // 目标合约的地址
-    TargetContract public target;
-
-    // 构造函数：部署时传入靶子合约的地址
-    constructor(address _targetAddress) {
-        target = TargetContract(_targetAddress);
-    }
-
-    // --- 步骤 1: 获取解题提示 ---
-    
-    /**
-     * @notice 调用靶子合约的 hint() 方法获取提示信息
-     * @return 返回靶子合约给出的提示字符串
-     */
-    function getHint() public view returns (string memory) {
-        // 直接调用接口中定义的 hint() 方法
-        return target.hint();
-    }
-
-    // --- 步骤 2: (计算答案 - 此步骤需手动或在本地完成) ---
-    // 这一步是根据 getHint() 返回的提示信息，在链下（本地计算机）计算出正确的 bytes32 答案。
-
-    // --- 步骤 3: 提交答案并获取 Flag ---
-
-    /**
-     * @notice 计算答案并调用靶子合约的 query() 方法提交。
-     * @dev 答案是字符串 "PKUBlockchain" 的 keccak256 哈希值。
-     * @return 返回靶子合约的 Flag 或确认消息
-     */
-    function solveAndSubmit() public returns (string memory) {
-        
-        // 1. 计算正确的 bytes32 答案
-        // 注意：我们对字符串 "PKUBlockchain" 进行 keccak256 哈希
-        bytes32 computedAnswer = keccak256(abi.encodePacked("PKUBlockchain"));
-
-        // 2. 调用靶子合约的 query() 方法提交答案
-        // target.query() 需要 bytes32 类型
-        string memory result = target.query(computedAnswer);
-        
-        // 3. 返回结果 (如果成功，您会看到 Flag 或 ChallengeCompleted 事件)
-        return result;
-    }
-
-
-}
-‘’‘
-
-### TargetContract.sol
-
-```solidity  
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
-
-/**
- * @title TargetContract
- * @notice 这是您要交互的目标合约（靶子合约）的接口。
- * * 靶子合约地址：0x4a6C0c0dc8BD8276b65956c9978ef941C3550A1B
- * 所在网络：Sepolia (Chain ID: 11155111)
- */
-interface TargetContract {
-    
-    // 步骤 1: 获取解题提示
-    // 假设 hint() 返回一个 string
-    function hint() external view returns (string memory);
-
-    // 步骤 3: 提交答案并获取 Flag
-    // 注意: 该方法可能需要您的 Solver 合约来调用
-    function query(bytes32 _hash) external returns (string memory flagOrMessage);
-
-    // 辅助方法：查看所有完成者
-    function getSolvers() external view returns (address[] memory);
-
-    // 可能触发的事件
-    event ChallengeCompleted(address indexed solver);
-}
-’‘’
+<img width="1048" height="328" alt="image" src="https://github.com/user-attachments/assets/53ca9a07-2d17-4024-8142-7684a88572c6" />
 
 
 <!-- Content_END -->
